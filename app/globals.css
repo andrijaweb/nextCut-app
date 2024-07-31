@@ -12,4 +12,10 @@
   .side-img {
     @apply hidden h-full object-cover md:block;
   }
+  .heading-h1 {
+    @apply text-4xl font-bold;
+  }
+  .regular-text {
+    @apply text-lg text-textGray-500;
+  }
 }
