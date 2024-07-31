@@ -27,7 +27,7 @@ export default function Homepage() {
         width={1000}
         height={1000}
         alt="barbershop interior"
-        className="rounded-tl-lg rounded-bl-lg side-img max-w-[50%]"
+        className="rounded-tl-3xl rounded-bl-3xl side-img max-w-[50%]"
       />
     </div>
   );
