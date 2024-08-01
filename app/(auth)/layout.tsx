@@ -1,9 +1,10 @@
-// import LoginForm from "@/components/forms/LoginForm";
-import LoginForm from "@/components/forms/LoginForm";
-import RegisterForm from "@/components/forms/RegisterForm";
 import Image from "next/image";
 
-export default function Homepage() {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <div className="flex h-screen max-h-screen">
       <section className="container my-auto">
@@ -16,7 +17,7 @@ export default function Homepage() {
             className="mb-12 h-10 w-fit"
           />
 
-          <RegisterForm />
+          {children}
 
           <div className="text-textGray-500 mt-16">
             <p>© NextCut | All rights reserved</p>

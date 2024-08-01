@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Button from "../Button";
 import FormRow from "./FormRow";
 
@@ -9,7 +10,7 @@ const LoginForm = () => {
         <p className="regular-text">Please enter your credentials to sign in</p>
       </div>
 
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-2.5">
         <FormRow label="Email" htmlFor="email">
           <input
             type="email"
@@ -32,6 +33,12 @@ const LoginForm = () => {
       <Button size="full" className="mt-10">
         Log In
       </Button>
+      <Link className="inline-block mt-2.5" href="/sign-up">
+        Don&apos;t have an account?{" "}
+        <span className="text-yellow-500 font-medium">
+          Create a new account.
+        </span>
+      </Link>
     </form>
   );
 };
