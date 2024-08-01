@@ -1,3 +1,6 @@
+import Button from "../Button";
+import FormRow from "./FormRow";
+
 export default function LoginForm() {
   return (
     <form>
@@ -7,35 +10,26 @@ export default function LoginForm() {
       </div>
 
       <div className="flex flex-col gap-5">
-        <div>
-          <label className="block text-lg font-medium mb-2.5" htmlFor="email">
-            Email
-          </label>
+        <FormRow label="Email">
           <input
             type="text"
-            className="flex h-12 w-full rounded-md border border-dark-700 bg-dark-500 px-3 py-2 text-sm ring-offset-yellow-500 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-yellow-700 disabled:cursor-not-allowed disabled:opacity-50"
+            className="input"
             placeholder="andrijadj@gmail.com"
-            id="email"
+            id="Email"
           />
-        </div>
-        <div>
-          <label
-            className="block text-lg font-medium mb-2.5"
-            htmlFor="password"
-          >
-            Password
-          </label>
+        </FormRow>
+        <FormRow label="Password">
           <input
             type="password"
-            className="flex h-12 w-full rounded-md border border-dark-700 bg-dark-500 px-3 py-2 text-sm ring-offset-yellow-500 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-yellow-700 disabled:cursor-not-allowed disabled:opacity-50"
+            className="input"
             placeholder="Enter your password"
-            id="password"
+            id="Password"
           />
-        </div>
+        </FormRow>
       </div>
-      <button className="mt-10 bg-yellow-500 w-full h-12 hover:bg-yellow-500/90 inline-flex items-center justify-center whitespace-nowrap rounded-lg font-bold ring-offset-yellow-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-700 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
-        Log in
-      </button>
+      <Button size="full" className="mt-10">
+        Log In
+      </Button>
     </form>
   );
 }
