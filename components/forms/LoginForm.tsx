@@ -1,7 +1,7 @@
 import Button from "../Button";
 import FormRow from "./FormRow";
 
-export default function LoginForm() {
+const LoginForm = () => {
   return (
     <form>
       <div className="mb-12 space-y-2.5">
@@ -10,20 +10,22 @@ export default function LoginForm() {
       </div>
 
       <div className="flex flex-col gap-5">
-        <FormRow label="Email">
+        <FormRow label="Email" htmlFor="email">
           <input
-            type="text"
+            type="email"
             className="input"
             placeholder="andrijadj@gmail.com"
-            id="Email"
+            id="email"
+            required
           />
         </FormRow>
-        <FormRow label="Password">
+        <FormRow label="Password" htmlFor="password">
           <input
             type="password"
             className="input"
             placeholder="Enter your password"
-            id="Password"
+            id="password"
+            required
           />
         </FormRow>
       </div>
@@ -32,4 +34,6 @@ export default function LoginForm() {
       </Button>
     </form>
   );
-}
+};
+
+export default LoginForm;

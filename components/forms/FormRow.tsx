@@ -3,14 +3,15 @@ import React, { FC } from "react";
 interface FormRowProps {
   children: React.ReactNode;
   label?: string;
+  htmlFor?: string;
   error?: string;
 }
 
-const FormRow: FC<FormRowProps> = ({ label, error, children }) => {
+const FormRow: FC<FormRowProps> = ({ children, label, htmlFor, error }) => {
   return (
-    <div>
+    <div className="w-full">
       {label && (
-        <label className="block text-lg font-medium mb-2.5" htmlFor={label}>
+        <label className="block text-lg font-medium mb-2.5" htmlFor={htmlFor}>
           {label}
         </label>
       )}

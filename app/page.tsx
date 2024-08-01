@@ -1,4 +1,6 @@
+// import LoginForm from "@/components/forms/LoginForm";
 import LoginForm from "@/components/forms/LoginForm";
+import RegisterForm from "@/components/forms/RegisterForm";
 import Image from "next/image";
 
 export default function Homepage() {
@@ -14,9 +16,9 @@ export default function Homepage() {
             className="mb-12 h-10 w-fit"
           />
 
-          <LoginForm />
+          <RegisterForm />
 
-          <div className="text-textGray-500 mt-20">
+          <div className="text-textGray-500 mt-16">
             <p>© NextCut | All rights reserved</p>
           </div>
         </div>
