@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import type { FieldError } from "react-hook-form";
 
 interface FormRowProps {
   children: React.ReactNode;

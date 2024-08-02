@@ -1,31 +1,51 @@
-import { ID, Query } from "node-appwrite";
-import { account, users } from "../appwrite.config";
+"use server";
 
-export const createUser = async (user: CreateUserParams) => {
+import { ID } from "node-appwrite";
+import {
+  account,
+  CUSTOMER_COLLECTION_ID,
+  DATABASE_ID,
+  databases,
+} from "../appwrite.config";
+import { cookies } from "next/headers";
+import { parseStringify } from "../utils";
+
+export const signUp = async ({ password, ...customerData }: SignupParams) => {
+  const { email, fullName } = customerData;
+
   try {
     const newAccount = await account.create(
       ID.unique(),
-      user.email,
-      user.password,
-      user.fullName
+      email,
+      password,
+      fullName
     );
 
-    const newUser = await users.create(
+    if (!newAccount) throw new Error("Error creating account");
+
+    const newCustomer = await databases.createDocument(
+      DATABASE_ID!,
+      CUSTOMER_COLLECTION_ID!,
       ID.unique(),
-      user.email,
-      user.phone,
-      user.password,
-      user.fullName
+      {
+        ...customerData,
+        customerId: newAccount.$id,
+      }
     );
 
-    console.log({ newUser });
-  } catch (err: any) {
-    if (err && err?.code === 409) {
-      const existingUser = await users.list([
-        Query.equal("email", [user.email]),
-      ]);
+    if (!newCustomer) throw new Error("Error creating a customer");
 
-      return existingUser.users[0];
-    }
+    const session = await account.createEmailPasswordSession(email, password);
+
+    cookies().set("appwrite-session", session.secret, {
+      path: "/",
+      httpOnly: true,
+      sameSite: "strict",
+      secure: true,
+    });
+
+    return parseStringify(newCustomer);
+  } catch (err: any) {
+    throw err;
   }
 };

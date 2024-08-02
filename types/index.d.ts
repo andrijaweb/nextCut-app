@@ -1,4 +1,4 @@
-declare type CreateUserParams = {
+declare type SignupParams = {
   fullName: string;
   email: string;
   phone: string;
