@@ -1,6 +1,6 @@
 "use server";
 
-import { ID } from "node-appwrite";
+import { ID, Query } from "node-appwrite";
 import {
   account,
   CUSTOMER_COLLECTION_ID,
@@ -9,6 +9,37 @@ import {
 } from "../appwrite.config";
 import { cookies } from "next/headers";
 import { parseStringify } from "../utils";
+
+export const getCustomer = async ({ customerId }: { customerId: string }) => {
+  try {
+    const customer = await databases.listDocuments(
+      DATABASE_ID!,
+      CUSTOMER_COLLECTION_ID!,
+      [Query.equal("customerId", [customerId])]
+    );
+
+    return parseStringify(customer.documents[0]);
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const logIn = async ({ email, password }: LogInProps) => {
+  try {
+    const session = await account.createEmailPasswordSession(email, password);
+
+    cookies().set("appwrite-session", session.secret, {
+      path: "/",
+      httpOnly: true,
+      sameSite: "strict",
+      secure: true,
+    });
+
+    const customer = await getCustomer({ customerId: session.userId });
+  } catch (err) {
+    throw err;
+  }
+};
 
 export const signUp = async ({ password, ...customerData }: SignupParams) => {
   const { email, fullName } = customerData;
