@@ -1,10 +1,24 @@
+"use client";
+
 import Link from "next/link";
 import Button from "../Button";
 import FormRow from "./FormRow";
+import { useState } from "react";
 
 const LoginForm = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const isLoading = false;
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!email || !password) return;
+
+    console.log(email, password);
+  }
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <div className="mb-12 space-y-2.5">
         <h1 className="heading-h1">Welcome back</h1>
         <p className="regular-text">Please enter your credentials to sign in</p>
@@ -17,7 +31,9 @@ const LoginForm = () => {
             className="input"
             placeholder="andrijadj@gmail.com"
             id="email"
-            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            disabled={isLoading}
           />
         </FormRow>
         <FormRow label="Password" htmlFor="password">
@@ -26,12 +42,14 @@ const LoginForm = () => {
             className="input"
             placeholder="Enter your password"
             id="password"
-            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            disabled={isLoading}
           />
         </FormRow>
       </div>
-      <Button size="full" className="mt-10">
-        Log In
+      <Button size="full" className="mt-10" disabled={isLoading}>
+        {!isLoading ? "Log In" : "Logging in..."}
       </Button>
       <Link className="inline-block mt-2.5" href="/sign-up">
         Don&apos;t have an account?{" "}
