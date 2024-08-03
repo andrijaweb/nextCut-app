@@ -82,3 +82,10 @@ export const signUp = async ({ password, ...customerData }: SignupParams) => {
     throw err;
   }
 };
+
+export async function getLoggedInCustomer() {
+  try {
+  } catch (err) {
+    return null;
+  }
+}
