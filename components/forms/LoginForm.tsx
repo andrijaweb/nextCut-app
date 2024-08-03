@@ -4,17 +4,21 @@ import Link from "next/link";
 import Button from "../Button";
 import FormRow from "./FormRow";
 import { useState } from "react";
+import { logIn } from "@/lib/actions/customer.actions";
+import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const isLoading = false;
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!email || !password) return;
 
-    console.log(email, password);
+    const response = await logIn({ email, password });
+    if (response) router.push("/");
   }
 
   return (
