@@ -11,14 +11,21 @@ const LoginForm = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const isLoading = false;
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!email || !password) return;
+    setIsLoading(true);
+    try {
+      if (!email || !password) return;
 
-    const response = await logIn({ email, password });
-    if (response) router.push("/");
+      const response = await logIn({ email, password });
+      if (response) router.push("/");
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (

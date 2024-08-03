@@ -16,12 +16,13 @@ interface Inputs {
 
 const RegisterForm = () => {
   const [user, setUser] = useState(null);
-  console.log(user);
+  const [isLoading, setIsLoading] = useState(false);
   const { register, formState, getValues, handleSubmit, reset } =
     useForm<Inputs>();
   const { errors } = formState;
 
   async function onSubmit(data: SignupParams) {
+    setIsLoading(true);
     try {
       const customerData = {
         fullName: data.fullName,
@@ -35,6 +36,8 @@ const RegisterForm = () => {
       setUser(newUser);
     } catch (err) {
       console.log(err);
+    } finally {
+      setIsLoading(false);
     }
   }
 
