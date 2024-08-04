@@ -59,6 +59,7 @@ const RegisterForm = () => {
             className="input"
             placeholder="Andrija Djordjevic"
             id="fullname"
+            disabled={isLoading}
             {...register("fullName", { required: "This field is required." })}
           />
         </FormRow>
@@ -69,6 +70,7 @@ const RegisterForm = () => {
               className="input"
               placeholder="andrijadj@gmail.com"
               id="email"
+              disabled={isLoading}
               {...register("email", {
                 required: "This field is required",
                 pattern: {
@@ -84,6 +86,7 @@ const RegisterForm = () => {
               className="input"
               placeholder="+381 61 4029023"
               id="phone"
+              disabled={isLoading}
               {...register("phone", {
                 required: "This field is required",
                 pattern: {
@@ -105,6 +108,7 @@ const RegisterForm = () => {
             className="input"
             placeholder="Enter your password"
             id="password"
+            disabled={isLoading}
             {...register("password", {
               required: "This field is required",
               minLength: {
@@ -115,8 +119,8 @@ const RegisterForm = () => {
           />
         </FormRow>
       </div>
-      <Button size="full" className="mt-8">
-        Sign up
+      <Button size="full" className="mt-8" disabled={isLoading}>
+        {!isLoading ? "Sign up" : "Loading..."}
       </Button>
       <Link className="inline-block mt-2.5" href="/sign-in">
         Already have an account?{" "}

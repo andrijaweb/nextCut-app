@@ -1,3 +1,4 @@
+import { cookies } from "next/headers";
 import * as sdk from "node-appwrite";
 
 export const {
@@ -11,11 +12,42 @@ export const {
   NEXT_PUBLIC_ENDPOINT: ENDPOINT,
 } = process.env;
 
-const client = new sdk.Client();
+export async function createSessionClient() {
+  const client = new sdk.Client()
+    .setEndpoint(ENDPOINT!)
+    .setProject(PROJECT_ID!);
 
-client.setEndpoint(ENDPOINT!).setProject(PROJECT_ID!).setKey(API_KEY!);
+  const session = cookies().get("auth-session");
+  if (!session || !session.value) {
+    throw new Error("No valid session");
+  }
 
-export const account = new sdk.Account(client);
-export const users = new sdk.Users(client);
-export const databases = new sdk.Databases(client);
-export const storage = new sdk.Storage(client);
+  client.setSession(session.value);
+
+  return {
+    get account() {
+      return new sdk.Account(client);
+    },
+  };
+}
+
+export async function createAdminClient() {
+  const client = new sdk.Client()
+    .setEndpoint(ENDPOINT!)
+    .setProject(PROJECT_ID!)
+    .setKey(API_KEY!);
+
+  return {
+    get account() {
+      return new sdk.Account(client);
+    },
+
+    get database() {
+      return new sdk.Databases(client);
+    },
+
+    get user() {
+      return new sdk.Users(client);
+    },
+  };
+}
