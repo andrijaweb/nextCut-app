@@ -105,7 +105,10 @@ export const logout = async () => {
 export const getLoggedInUser = async () => {
   try {
     const { account } = await createSessionClient();
-    return await account.get();
+
+    const user = await account.get();
+
+    return parseStringify(user);
   } catch (err) {
     return null;
   }
