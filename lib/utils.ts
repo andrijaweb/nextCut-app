@@ -68,6 +68,10 @@ export const formatDateTime = (dateString: Date | string) => {
   };
 };
 
+export function capitalizeFirstLetter(word: string) {
+  return word.charAt(0).toUpperCase() + word.slice(1);
+}
+
 export function encryptKey(passkey: string) {
   return btoa(passkey);
 }

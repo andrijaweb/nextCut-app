@@ -1,4 +1,4 @@
-export const Doctors = [
+export const Barbers = [
   {
     image: "/assets/imgs/barber_avatar1.png",
     name: "John Snow",
