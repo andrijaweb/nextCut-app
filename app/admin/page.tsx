@@ -1,3 +1,5 @@
+import StateCard from "@/components/StateCard";
+import { CalendarCheck, CalendarClock, CalendarX } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -17,6 +19,33 @@ const AdminPage = () => {
 
         <p className="text-lg font-medium">Dashboard</p>
       </header>
+
+      <main>
+        <section className="mb-12 space-y-4">
+          <h1 className="heading-h1">Welcome, Andrija 👋</h1>
+          <p className="text-textGray-500">
+            Control appointments and clients as desired
+          </p>
+        </section>
+
+        <section className="flex w-full flex-col justify-between gap-5 sm:flex-row xl:gap-10">
+          <StateCard
+            state="confirmed"
+            count={5}
+            label="Confirmed"
+            icon={CalendarCheck}
+          />
+
+          <StateCard
+            state="pending"
+            count={7}
+            label="Pending"
+            icon={CalendarClock}
+          />
+
+          <StateCard state="denied" count={1} label="Denied" icon={CalendarX} />
+        </section>
+      </main>
     </div>
   );
 };
