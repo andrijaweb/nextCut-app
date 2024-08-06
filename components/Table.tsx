@@ -32,7 +32,7 @@ const Table: FC<TableProps> & {
   return (
     <TableContext.Provider value={{ columns }}>
       <div
-        className="border border-dark-700 text-sm bg-dark-500 rounded-2xl overflow-hidden"
+        className="border border-dark-700 bg-dark-500 rounded-2xl overflow-hidden"
         role="table"
       >
         {children}

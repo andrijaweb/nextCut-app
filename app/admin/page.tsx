@@ -1,12 +1,13 @@
 import StateCard from "@/components/StateCard";
+import AppointmentTable from "@/components/tables/AppointmentTable";
 import { CalendarCheck, CalendarClock, CalendarX } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 const AdminPage = () => {
   return (
-    <div className="mx-auto flex max-w-7xl flex-col space-y-14 pt-5">
-      <header className="sticky top-3 z-30 mx-3 flex items-center justify-between rounded-2xl bg-dark-200 px-[5%] py-5 shadow-lg xl:px-12">
+    <div className="mx-auto flex max-w-7xl flex-col space-y-14 px-3 xl:px-12 pt-5 pb-24">
+      <header className="sticky top-3 z-30 flex items-center justify-between rounded-2xl bg-dark-200 px-[5%] py-5 shadow-lg">
         <Link href="/" className="cursor-pointer">
           <Image
             src="/assets/imgs/logo.svg"
@@ -28,23 +29,25 @@ const AdminPage = () => {
           </p>
         </section>
 
-        <section className="flex w-full flex-col justify-between gap-5 sm:flex-row xl:gap-10">
+        <section className="flex w-full flex-col justify-between gap-5 sm:flex-row flex-wrap xl:gap-10 mb-16">
           <StateCard
             state="confirmed"
-            count={5}
+            count={2}
             label="Confirmed"
             icon={CalendarCheck}
           />
 
           <StateCard
             state="pending"
-            count={7}
+            count={1}
             label="Pending"
             icon={CalendarClock}
           />
 
           <StateCard state="denied" count={1} label="Denied" icon={CalendarX} />
         </section>
+
+        <AppointmentTable />
       </main>
     </div>
   );
