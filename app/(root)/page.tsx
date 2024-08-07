@@ -1,18 +1,21 @@
 import Button from "@/components/Button";
 import Image from "next/image";
+import Link from "next/link";
 
 const Home = () => {
   return (
     <div className="flex h-screen max-h-screen">
       <section className="container my-auto">
         <div className="sub-container max-w-[860px] flex-1 justify-between">
-          <Image
-            src="/assets/imgs/logo.svg"
-            width={1000}
-            height={1000}
-            alt="logo"
-            className="mb-12 h-10 w-fit"
-          />
+          <Link href="/">
+            <Image
+              src="/assets/imgs/logo.svg"
+              width={1000}
+              height={1000}
+              alt="logo"
+              className="mb-12 h-10 w-fit"
+            />
+          </Link>
 
           <div>
             <h1 className="heading-h1">Welcome, Andrija 👋</h1>
@@ -20,7 +23,9 @@ const Home = () => {
               Your perfect cut, just a tap away. Get your appointment in
               seconds!
             </p>
-            <Button className="self-start">Get Appointment</Button>
+            <Button href="customers/4/new-appointment" className="self-start">
+              Get Appointment
+            </Button>
           </div>
 
           <p className="text-textGray-500 mt-16">
