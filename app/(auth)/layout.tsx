@@ -1,21 +1,29 @@
+import { getLoggedInUser } from "@/lib/actions/customer.actions";
 import Image from "next/image";
+import Link from "next/link";
+import { redirect } from "next/navigation";
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const loggedInUser = await getLoggedInUser();
+  if (loggedInUser) redirect("/");
+
   return (
     <div className="flex h-screen max-h-screen">
       <section className="container my-auto">
         <div className="sub-container max-w-[496px]">
-          <Image
-            src="/assets/imgs/logo.svg"
-            width={1000}
-            height={1000}
-            alt="NextCut"
-            className="mb-12 h-10 w-fit"
-          />
+          <Link href="/">
+            <Image
+              src="/assets/imgs/logo.svg"
+              width={1000}
+              height={1000}
+              alt="NextCut"
+              className="mb-12 h-10 w-fit"
+            />
+          </Link>
 
           {children}
 
