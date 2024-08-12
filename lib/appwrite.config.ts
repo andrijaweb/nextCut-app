@@ -1,21 +1,12 @@
+"use server";
+
 import { cookies } from "next/headers";
 import * as sdk from "node-appwrite";
 
-export const {
-  PROJECT_ID,
-  API_KEY,
-  DATABASE_ID,
-  CUSTOMER_COLLECTION_ID,
-  DOCTOR_COLLECTION_ID,
-  APPOINTMENT_COLLECTION_ID,
-  NEXT_PUBLIC_BUCKET_ID: BUCKET_ID,
-  NEXT_PUBLIC_ENDPOINT: ENDPOINT,
-} = process.env;
-
 export async function createSessionClient() {
   const client = new sdk.Client()
-    .setEndpoint(ENDPOINT!)
-    .setProject(PROJECT_ID!);
+    .setEndpoint(process.env.NEXT_PUBLIC_ENDPOINT!)
+    .setProject(process.env.NEXT_PUBLIC_PROJECT_ID!);
 
   const session = cookies().get("auth-session");
   if (!session || !session.value) {
@@ -33,9 +24,9 @@ export async function createSessionClient() {
 
 export async function createAdminClient() {
   const client = new sdk.Client()
-    .setEndpoint(ENDPOINT!)
-    .setProject(PROJECT_ID!)
-    .setKey(API_KEY!);
+    .setEndpoint(process.env.NEXT_PUBLIC_ENDPOINT!)
+    .setProject(process.env.NEXT_PUBLIC_PROJECT_ID!)
+    .setKey(process.env.NEXT_API_KEY!);
 
   return {
     get account() {

@@ -1,3 +1,5 @@
+import { StringToBoolean } from "class-variance-authority/types";
+
 declare type SignupParams = {
   fullName: string;
   email: string;
@@ -11,3 +13,11 @@ declare type LogInProps = {
 };
 
 declare type Gender = "Male" | "Female" | "Other";
+
+declare type CreateAppointmentParams = {
+  userId: string;
+  customer: string;
+  barber: string;
+  serviceType: string;
+  scheduleDate: Date;
+};

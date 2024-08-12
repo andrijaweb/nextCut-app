@@ -1,16 +1,14 @@
 "use server";
 
 import { ID, Query } from "node-appwrite";
-import {
-  createAdminClient,
-  createSessionClient,
-  CUSTOMER_COLLECTION_ID,
-  DATABASE_ID,
-} from "../appwrite.config";
+import { createAdminClient, createSessionClient } from "../appwrite.config";
 import { cookies } from "next/headers";
 import { parseStringify } from "../utils";
+import { LogInProps, SignupParams } from "@/types";
 
-export const getCustomer = async ({ customerId }: { customerId: string }) => {
+const { DATABASE_ID, CUSTOMER_COLLECTION_ID } = process.env;
+
+export const getCustomer = async (customerId: string) => {
   try {
     const { database } = await createAdminClient();
 
@@ -19,6 +17,8 @@ export const getCustomer = async ({ customerId }: { customerId: string }) => {
       CUSTOMER_COLLECTION_ID!,
       [Query.equal("customerId", [customerId])]
     );
+
+    if (!customer) throw new Error("Error getting valid customer.");
 
     return parseStringify(customer.documents[0]);
   } catch (err) {

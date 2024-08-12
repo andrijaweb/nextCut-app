@@ -6,6 +6,7 @@ import FormRow from "./FormRow";
 import { useForm } from "react-hook-form";
 import { signUp } from "@/lib/actions/customer.actions";
 import { useState } from "react";
+import { SignupParams } from "@/types";
 
 interface Inputs {
   fullName: string;

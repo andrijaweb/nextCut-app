@@ -1,8 +1,12 @@
 import Button from "@/components/Button";
+import Spinner from "@/components/Spinner";
+import { getLoggedInUser } from "@/lib/actions/customer.actions";
 import Image from "next/image";
 import Link from "next/link";
 
-const Home = () => {
+const Home = async () => {
+  const loggedUser = await getLoggedInUser();
+
   return (
     <div className="flex h-screen max-h-screen">
       <section className="container my-auto">
@@ -18,14 +22,21 @@ const Home = () => {
           </Link>
 
           <div>
-            <h1 className="heading-h1">Welcome, Andrija 👋</h1>
-            <p className="text-textGray-500 mt-2 mb-5">
-              Your perfect cut, just a tap away. Get your appointment in
-              seconds!
-            </p>
-            <Button href="customers/4/new-appointment" className="self-start">
-              Get Appointment
-            </Button>
+            {loggedUser && (
+              <>
+                <h1 className="heading-h1">Welcome, Andrija 👋</h1>
+                <p className="text-textGray-500 mt-2 mb-5">
+                  Your perfect cut, just a tap away. Get your appointment in
+                  seconds!
+                </p>
+                <Button
+                  href={`customers/${loggedUser.$id}/new-appointment`}
+                  className="self-start"
+                >
+                  Get Appointment
+                </Button>
+              </>
+            )}
           </div>
 
           <p className="text-textGray-500 mt-16">
