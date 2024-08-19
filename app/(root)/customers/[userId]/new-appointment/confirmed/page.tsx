@@ -1,8 +1,18 @@
 import Button from "@/components/Button";
+import { getAppointment } from "@/lib/actions/appointment.action";
+import { Barbers } from "@/lib/constants";
+import { capitalizeFirstLetter, formatDateTime } from "@/lib/utils";
 import { CalendarDays } from "lucide-react";
 import Image from "next/image";
 
-const ConfirmedPage = () => {
+const ConfirmedPage = async ({
+  searchParams,
+}: {
+  searchParams: { appointmentId: string };
+}) => {
+  const appointmendId = (searchParams?.appointmentId as string) || "";
+  const appointment = await getAppointment(appointmendId);
+
   return (
     <div className="flex h-screen min-h-screen px-[5%]">
       <div className="m-auto flex flex-1 flex-col items-center justify-between gap-10 py-10">
@@ -35,11 +45,11 @@ const ConfirmedPage = () => {
           <h3 className="text-white font-medium text-2xl">
             Appointment Details
           </h3>
-          <p>John Snowman</p>
-          <p>Fade haircut + beard trimming</p>
+          <p>{appointment.barber}</p>
+          <p>{appointment.serviceType}</p>
           <div className="flex items-center gap-2.5">
             <CalendarDays />
-            <p>06 August 2024 - 13:30</p>
+            <p>{formatDateTime(appointment.scheduleDate).dateTime}</p>
           </div>
           <p className="text-yellow-500 font-medium cursor-pointer">
             Edit appointment
