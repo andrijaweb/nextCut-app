@@ -1,7 +1,6 @@
 import Button from "@/components/Button";
 import { getAppointment } from "@/lib/actions/appointment.action";
-import { Barbers } from "@/lib/constants";
-import { capitalizeFirstLetter, formatDateTime } from "@/lib/utils";
+import { formatDateTime } from "@/lib/utils";
 import { CalendarDays } from "lucide-react";
 import Image from "next/image";
 
@@ -38,7 +37,7 @@ const ConfirmedPage = async ({
           <p className="text-textGray-500 mt-2.5 mb-8">
             Please wait for admin approval.
           </p>
-          <Button>Go to Home</Button>
+          <Button href="/">Go to Home</Button>
         </section>
 
         <section className="text-textGray-500 flex w-full flex-col items-center gap-8 border-y-2 border-dark-400 py-8 md:w-fit md:flex-row">
