@@ -24,7 +24,10 @@ const Home = async () => {
           <div>
             {loggedUser && (
               <>
-                <h1 className="heading-h1">Welcome, Andrija 👋</h1>
+                <h1 className="heading-h1">
+                  Welcome,{" "}
+                  {loggedUser ? loggedUser.name.split(" ").at(0) : "Guest"} 👋
+                </h1>
                 <p className="text-textGray-500 mt-2 mb-5">
                   Your perfect cut, just a tap away. Get your appointment in
                   seconds!
