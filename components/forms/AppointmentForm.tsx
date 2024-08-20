@@ -7,6 +7,10 @@ import { useForm } from "react-hook-form";
 import FormRow from "./FormRow";
 import Button from "../Button";
 import { Input } from "../Input";
+import Select, {
+  type OptionProps,
+  type CSSObjectWithLabel,
+} from "react-select";
 
 interface AppointmentProps {
   userId: string;
@@ -19,8 +23,47 @@ interface Inputs {
   date: string;
 }
 
+const barberOptions = [
+  { value: "John Merrick", label: "John Merrick" },
+  { value: "Patrick Snowman", label: "Patrick Snowman" },
+  { value: "Igor Stalinski", label: "Igor Stalinski" },
+];
+
+const serviceOptions = [
+  { value: "Normal short haircut", label: "Normal short haircut" },
+  { value: "Fade haircut", label: "Fade haircut" },
+  { value: "Skinning head", label: "Skinning head" },
+  { value: "Beard trimming", label: "Beard trimming" },
+];
+
+const selectStyles = {
+  singleValue: (provided: CSSObjectWithLabel) => ({
+    ...provided,
+    color: "white",
+  }),
+  control: (provided: CSSObjectWithLabel) => ({
+    ...provided,
+    backgroundColor: "#262626",
+    borderRadius: "6px",
+    height: "48px",
+    borderColor: "#4F4F4F",
+    boxShadow: "none",
+  }),
+  menu: (provided: CSSObjectWithLabel) => ({
+    ...provided,
+    backgroundColor: "#262626",
+  }),
+  option: (provided: CSSObjectWithLabel, state: OptionProps) => ({
+    ...provided,
+    backgroundColor: state.isSelected ? "#1D1D1D" : "#262626",
+  }),
+};
+
 const AppointmentForm = ({ userId, customerId }: AppointmentProps) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [barberOption, setBarberOption] = useState<unknown>("");
+  const [serviceOption, setServiceOption] = useState<unknown>("");
+  console.log(barberOption, serviceOption);
   const router = useRouter();
   const { register, formState, handleSubmit, reset } = useForm<Inputs>();
   const { errors } = formState;
@@ -59,32 +102,23 @@ const AppointmentForm = ({ userId, customerId }: AppointmentProps) => {
         <p className="text-textGray-500">Send a request for your new haircut</p>
       </section>
 
-      <div>
+      <div className="space-y-5">
         <FormRow label="Available barbers" htmlFor="barber">
-          <select
-            {...register("barber", {
-              required: "This field is required.",
-            })}
-            disabled={isLoading}
-          >
-            <option value="john">John Merrick</option>
-            <option value="patrick">Patrick Snowman</option>
-            <option value="igor">Igor Stalinski</option>
-          </select>
+          <Select
+            styles={selectStyles}
+            options={barberOptions}
+            onChange={(option) => setBarberOption(option)}
+          />
         </FormRow>
+
         <FormRow label="Service type" htmlFor="service">
-          <select
-            {...register("service", {
-              required: "This field is required.",
-            })}
-            disabled={isLoading}
-          >
-            <option value="fade">Normal short haircut</option>
-            <option value="fade">Fade haircut</option>
-            <option value="fade">Skining head</option>
-            <option value="fade">Beard Trimming</option>
-          </select>
+          <Select
+            options={serviceOptions}
+            styles={selectStyles}
+            onChange={(option) => setServiceOption(option)}
+          />
         </FormRow>
+
         <FormRow label="Appointment date" htmlFor="appointmentDate">
           <Input
             type="date"
