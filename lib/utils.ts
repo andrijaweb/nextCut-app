@@ -79,3 +79,8 @@ export function encryptKey(passkey: string) {
 export function decryptKey(passkey: string) {
   return atob(passkey);
 }
+
+export const filterTime = (time: Date) => {
+  const hour = time.getHours();
+  return hour >= 9 && hour < 21;
+};

@@ -2,7 +2,7 @@
 
 import { CreateAppointmentParams } from "@/types";
 import { createAdminClient } from "../appwrite.config";
-import { ID } from "node-appwrite";
+import { ID, Query } from "node-appwrite";
 import { parseStringify } from "../utils";
 
 const { DATABASE_ID, APPOINTMENT_COLLECTION_ID } = process.env;
@@ -42,5 +42,21 @@ export const getAppointment = async (appointmentId: string) => {
       "An error occurred while retrieving the existing patient:",
       error
     );
+  }
+};
+
+export const getAppointmentDates = async () => {
+  try {
+    const { database } = await createAdminClient();
+
+    const appointments = await database.listDocuments(
+      DATABASE_ID!,
+      APPOINTMENT_COLLECTION_ID!,
+      [Query.orderDesc("$createdAt")]
+    );
+
+    return parseStringify(appointments.documents);
+  } catch (error) {
+    console.error(error);
   }
 };

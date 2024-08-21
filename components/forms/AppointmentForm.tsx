@@ -3,16 +3,16 @@
 import { createAppointment } from "@/lib/actions/appointment.action";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import FormRow from "./FormRow";
-import Button from "../Button";
-import Select, {
-  type OptionProps,
-  type CSSObjectWithLabel,
-} from "react-select";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { CalendarDays } from "lucide-react";
+import { useForm } from "react-hook-form";
+import Select, {
+  type CSSObjectWithLabel,
+  type OptionProps,
+} from "react-select";
+import Button from "../Button";
+import DateSelector from "../DateSelector";
+import FormRow from "./FormRow";
+import { addHours, setMinutes, startOfHour } from "date-fns";
 
 interface AppointmentProps {
   userId: string;
@@ -66,14 +66,20 @@ const selectStyles = {
   }),
 };
 
+const now = new Date();
+
+const initialStartDate =
+  now.getMinutes() > 30
+    ? addHours(startOfHour(now), 1)
+    : setMinutes(startOfHour(now), 30);
+
 const AppointmentForm = ({ userId, customerId }: AppointmentProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [barberOption, setBarberOption] = useState<OptionType | null>(null);
   const [serviceOption, setServiceOption] = useState<OptionType | null>(null);
-  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [startDate, setStartDate] = useState<Date | null>(initialStartDate);
   const router = useRouter();
   const { register, formState, handleSubmit, reset } = useForm<Inputs>();
-  const { errors } = formState;
 
   const onSubmit = async () => {
     setIsLoading(true);
@@ -85,6 +91,7 @@ const AppointmentForm = ({ userId, customerId }: AppointmentProps) => {
           barber: barberOption.value,
           serviceType: serviceOption.value,
           scheduleDate: startDate,
+          status: "pending",
         };
 
         const newAppointment = await createAppointment(appointment);
@@ -115,6 +122,7 @@ const AppointmentForm = ({ userId, customerId }: AppointmentProps) => {
             name="barber"
             styles={selectStyles}
             options={barberOptions}
+            isDisabled={isLoading}
             onChange={(option) => setBarberOption(option as OptionType)}
           />
         </FormRow>
@@ -124,27 +132,23 @@ const AppointmentForm = ({ userId, customerId }: AppointmentProps) => {
             name="serviceType"
             options={serviceOptions}
             styles={selectStyles}
+            isDisabled={isLoading}
             onChange={(option) => setServiceOption(option as OptionType)}
           />
         </FormRow>
 
         <FormRow label="Appointment date" htmlFor="appointmentDate">
-          <DatePicker
-            name="scheduleDate"
-            className="w-full bg-dark-500 border border-dark-700 h-12 rounded-md pl-2.5"
-            wrapperClassName="w-full"
-            selected={startDate}
-            placeholderText="Select date..."
-            onChange={(date) => setStartDate(date)}
-            showTimeSelect
-            timeFormat="HH:mm"
-            timeIntervals={30}
-            dateFormat="dd-MM-yyyy HH:mm"
+          <DateSelector
+            startDate={startDate}
+            setStartDate={setStartDate}
+            isLoading={isLoading}
           />
         </FormRow>
       </div>
 
-      <Button size="full">Submit</Button>
+      <Button size="full" disabled={isLoading}>
+        Submit
+      </Button>
     </form>
   );
 };
