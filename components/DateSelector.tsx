@@ -1,5 +1,6 @@
 import { getAppointmentDates } from "@/lib/actions/appointment.action";
 import { filterTime } from "@/lib/utils";
+import { type Appointment } from "@/types/appwrite.types";
 import { isSameDay, isWeekend, parseISO } from "date-fns";
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import DatePicker from "react-datepicker";
@@ -10,12 +11,12 @@ interface DateSelectorProps {
   isLoading: boolean;
 }
 
-const getBookedTimes = (appointments: any, selectedDate: Date) => {
+const getBookedTimes = (appointments: Appointment[], selectedDate: Date) => {
   return appointments
-    .filter((appointment: any) =>
-      isSameDay(parseISO(appointment.scheduleDate), selectedDate)
+    .filter((appointment) =>
+      isSameDay(parseISO(String(appointment.scheduleDate)), selectedDate)
     )
-    .map((appointment: any) => parseISO(appointment.scheduleDate));
+    .map((appointment) => parseISO(String(appointment.scheduleDate)));
 };
 
 const DateSelector = ({
@@ -23,11 +24,11 @@ const DateSelector = ({
   setStartDate,
   isLoading,
 }: DateSelectorProps) => {
-  const [appointments, setAppointments] = useState<any>(null);
+  const [appointments, setAppointments] = useState<Appointment[] | null>(null);
 
   useEffect(() => {
     const fetchAppointmentDates = async () => {
-      const appointments = await getAppointmentDates();
+      const appointments: Appointment[] = await getAppointmentDates();
       setAppointments(appointments);
     };
 
@@ -46,7 +47,9 @@ const DateSelector = ({
       minDate={new Date()}
       disabled={isLoading}
       excludeTimes={
-        startDate && appointments && getBookedTimes(appointments, startDate)
+        startDate && appointments
+          ? getBookedTimes(appointments, startDate)
+          : undefined
       }
       onChange={(date) => setStartDate(date)}
       showTimeSelect

@@ -1,6 +1,7 @@
 "use client";
 
 import { createAppointment } from "@/lib/actions/appointment.action";
+import { addHours, setMinutes, startOfHour } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
@@ -12,7 +13,6 @@ import Select, {
 import Button from "../Button";
 import DateSelector from "../DateSelector";
 import FormRow from "./FormRow";
-import { addHours, setMinutes, startOfHour } from "date-fns";
 
 interface AppointmentProps {
   userId: string;
@@ -79,7 +79,7 @@ const AppointmentForm = ({ userId, customerId }: AppointmentProps) => {
   const [serviceOption, setServiceOption] = useState<OptionType | null>(null);
   const [startDate, setStartDate] = useState<Date | null>(initialStartDate);
   const router = useRouter();
-  const { register, formState, handleSubmit, reset } = useForm<Inputs>();
+  const { handleSubmit } = useForm<Inputs>();
 
   const onSubmit = async () => {
     setIsLoading(true);

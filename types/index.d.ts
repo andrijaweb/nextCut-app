@@ -20,4 +20,5 @@ declare type CreateAppointmentParams = {
   barber: string;
   serviceType: string;
   scheduleDate: Date;
+  status: string;
 };

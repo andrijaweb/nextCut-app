@@ -1,6 +1,7 @@
 import Button from "@/components/Button";
 import { getAppointment } from "@/lib/actions/appointment.action";
 import { formatDateTime } from "@/lib/utils";
+import { type Appointment } from "@/types/appwrite.types";
 import { CalendarDays } from "lucide-react";
 import Image from "next/image";
 
@@ -10,7 +11,7 @@ const ConfirmedPage = async ({
   searchParams: { appointmentId: string };
 }) => {
   const appointmendId = (searchParams?.appointmentId as string) || "";
-  const appointment = await getAppointment(appointmendId);
+  const appointment: Appointment = await getAppointment(appointmendId);
 
   return (
     <div className="flex h-screen min-h-screen px-[5%]">

@@ -1,8 +1,8 @@
 "use server";
 
-import { CreateAppointmentParams } from "@/types";
-import { createAdminClient } from "../appwrite.config";
+import { type CreateAppointmentParams } from "@/types";
 import { ID, Query } from "node-appwrite";
+import { createAdminClient } from "../appwrite.config";
 import { parseStringify } from "../utils";
 
 const { DATABASE_ID, APPOINTMENT_COLLECTION_ID } = process.env;
