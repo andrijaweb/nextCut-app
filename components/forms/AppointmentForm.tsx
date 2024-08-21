@@ -6,11 +6,13 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import FormRow from "./FormRow";
 import Button from "../Button";
-import { Input } from "../Input";
 import Select, {
   type OptionProps,
   type CSSObjectWithLabel,
 } from "react-select";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { CalendarDays } from "lucide-react";
 
 interface AppointmentProps {
   userId: string;
@@ -21,6 +23,11 @@ interface Inputs {
   barber: string;
   service: string;
   date: string;
+}
+
+interface OptionType {
+  value: string;
+  label: string;
 }
 
 const barberOptions = [
@@ -61,23 +68,23 @@ const selectStyles = {
 
 const AppointmentForm = ({ userId, customerId }: AppointmentProps) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [barberOption, setBarberOption] = useState<unknown>("");
-  const [serviceOption, setServiceOption] = useState<unknown>("");
-  console.log(barberOption, serviceOption);
+  const [barberOption, setBarberOption] = useState<OptionType | null>(null);
+  const [serviceOption, setServiceOption] = useState<OptionType | null>(null);
+  const [startDate, setStartDate] = useState<Date | null>(null);
   const router = useRouter();
   const { register, formState, handleSubmit, reset } = useForm<Inputs>();
   const { errors } = formState;
 
-  const onSubmit = async (data: Inputs) => {
+  const onSubmit = async () => {
     setIsLoading(true);
     try {
-      if (customerId) {
+      if (customerId && barberOption && serviceOption && startDate) {
         const appointment = {
           userId,
           customer: customerId,
-          barber: data.barber,
-          serviceType: data.service,
-          scheduleDate: new Date(data.date),
+          barber: barberOption.value,
+          serviceType: serviceOption.value,
+          scheduleDate: startDate,
         };
 
         const newAppointment = await createAppointment(appointment);
@@ -105,27 +112,34 @@ const AppointmentForm = ({ userId, customerId }: AppointmentProps) => {
       <div className="space-y-5">
         <FormRow label="Available barbers" htmlFor="barber">
           <Select
+            name="barber"
             styles={selectStyles}
             options={barberOptions}
-            onChange={(option) => setBarberOption(option)}
+            onChange={(option) => setBarberOption(option as OptionType)}
           />
         </FormRow>
 
         <FormRow label="Service type" htmlFor="service">
           <Select
+            name="serviceType"
             options={serviceOptions}
             styles={selectStyles}
-            onChange={(option) => setServiceOption(option)}
+            onChange={(option) => setServiceOption(option as OptionType)}
           />
         </FormRow>
 
         <FormRow label="Appointment date" htmlFor="appointmentDate">
-          <Input
-            type="date"
-            {...register("date", {
-              required: "This field is required.",
-            })}
-            disabled={isLoading}
+          <DatePicker
+            name="scheduleDate"
+            className="w-full bg-dark-500 border border-dark-700 h-12 rounded-md pl-2.5"
+            wrapperClassName="w-full"
+            selected={startDate}
+            placeholderText="Select date..."
+            onChange={(date) => setStartDate(date)}
+            showTimeSelect
+            timeFormat="HH:mm"
+            timeIntervals={30}
+            dateFormat="dd-MM-yyyy HH:mm"
           />
         </FormRow>
       </div>
