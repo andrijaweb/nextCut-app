@@ -30,7 +30,7 @@ const Home = async () => {
                   Welcome,{" "}
                   {loggedUser ? loggedUser.name.split(" ").at(0) : "Guest"} 👋
                 </h1>
-                <p className="text-textGray-500 mt-2 mb-5">
+                <p className="text-textGray-500 mt-5 mb-10">
                   Your perfect cut, just a tap away. Get your appointment in
                   seconds!
                 </p>
