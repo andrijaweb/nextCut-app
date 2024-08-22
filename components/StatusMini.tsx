@@ -4,7 +4,7 @@ import { Ban, CircleCheck, CircleEllipsis } from "lucide-react";
 import { FC } from "react";
 
 interface StatusMiniProps {
-  status: "confirmed" | "pending" | "denied";
+  status: string;
 }
 
 const StatusMini: FC<StatusMiniProps> = ({ status }) => {
@@ -25,7 +25,9 @@ const StatusMini: FC<StatusMiniProps> = ({ status }) => {
         }
       )}
     >
-      {icons[status]}
+      {status === "confirmed" ||
+        status === "pending" ||
+        (status === "denied" && icons[status])}
       <p className="font-medium">{capitalizeFirstLetter(status)}</p>
     </div>
   );

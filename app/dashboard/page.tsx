@@ -1,10 +1,14 @@
 import StateCard from "@/components/StateCard";
 import AppointmentTable from "@/components/tables/AppointmentTable";
+import { getAppointments } from "@/lib/actions/appointment.action";
+import { Appointment } from "@/types/appwrite.types";
 import { CalendarCheck, CalendarClock, CalendarX } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-const AdminPage = () => {
+const AdminPage = async () => {
+  const appointments: Appointment[] = await getAppointments();
+
   return (
     <div className="mx-auto flex max-w-7xl flex-col space-y-14 px-3 xl:px-12 pt-5 pb-24">
       <header className="sticky top-3 z-30 flex items-center justify-between rounded-2xl bg-dark-200 px-[5%] py-5 shadow-lg">
@@ -47,7 +51,7 @@ const AdminPage = () => {
           <StateCard state="denied" count={1} label="Denied" icon={CalendarX} />
         </section>
 
-        <AppointmentTable />
+        <AppointmentTable appointments={appointments} />
       </main>
     </div>
   );

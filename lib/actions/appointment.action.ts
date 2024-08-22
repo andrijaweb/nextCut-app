@@ -45,7 +45,7 @@ export const getAppointment = async (appointmentId: string) => {
   }
 };
 
-export const getAppointmentDates = async () => {
+export const getAppointments = async () => {
   try {
     const { database } = await createAdminClient();
 

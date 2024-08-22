@@ -1,7 +1,7 @@
-import { getAppointmentDates } from "@/lib/actions/appointment.action";
+import { getAppointments } from "@/lib/actions/appointment.action";
 import { filterTime } from "@/lib/utils";
 import { type Appointment } from "@/types/appwrite.types";
-import { isSameDay, isWeekend, parseISO } from "date-fns";
+import { isSameDay, isWeekend } from "date-fns";
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import DatePicker from "react-datepicker";
 
@@ -13,10 +13,8 @@ interface DateSelectorProps {
 
 const getBookedTimes = (appointments: Appointment[], selectedDate: Date) => {
   return appointments
-    .filter((appointment) =>
-      isSameDay(parseISO(String(appointment.scheduleDate)), selectedDate)
-    )
-    .map((appointment) => parseISO(String(appointment.scheduleDate)));
+    .filter((appointment) => isSameDay(appointment.scheduleDate, selectedDate))
+    .map((appointment) => appointment.scheduleDate);
 };
 
 const DateSelector = ({
@@ -28,7 +26,7 @@ const DateSelector = ({
 
   useEffect(() => {
     const fetchAppointmentDates = async () => {
-      const appointments: Appointment[] = await getAppointmentDates();
+      const appointments: Appointment[] = await getAppointments();
       setAppointments(appointments);
     };
 
