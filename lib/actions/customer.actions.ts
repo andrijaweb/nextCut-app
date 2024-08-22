@@ -4,11 +4,12 @@ import { ID, Query } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../appwrite.config";
 import { cookies } from "next/headers";
 import { parseStringify } from "../utils";
-import { LogInProps, SignupParams } from "@/types";
+import { type LogInProps, type SignupParams } from "@/types";
+import { type Customer } from "@/types/appwrite.types";
 
 const { DATABASE_ID, CUSTOMER_COLLECTION_ID } = process.env;
 
-export const getCustomer = async (customerId: string) => {
+export const getCustomer = async (customerId: string): Promise<Customer> => {
   try {
     const { database } = await createAdminClient();
 
@@ -47,7 +48,10 @@ export const logIn = async ({ email, password }: LogInProps) => {
   }
 };
 
-export const signUp = async ({ password, ...customerData }: SignupParams) => {
+export const signUp = async ({
+  password,
+  ...customerData
+}: SignupParams): Promise<Customer> => {
   const { email, fullName } = customerData;
 
   try {
@@ -86,7 +90,7 @@ export const signUp = async ({ password, ...customerData }: SignupParams) => {
     });
 
     return parseStringify(newCustomer);
-  } catch (err: any) {
+  } catch (err) {
     throw err;
   }
 };

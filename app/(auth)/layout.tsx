@@ -15,15 +15,17 @@ export default async function RootLayout({
     <div className="flex h-screen max-h-screen">
       <section className="container my-auto">
         <div className="sub-container max-w-[496px]">
-          <Link href="/">
-            <Image
-              src="/assets/imgs/logo.svg"
-              width={1000}
-              height={1000}
-              alt="NextCut"
-              className="mb-12 h-10 w-fit"
-            />
-          </Link>
+          <div>
+            <Link href="/" className="inline-block mb-12">
+              <Image
+                src="/assets/imgs/logo.svg"
+                width={1000}
+                height={1000}
+                alt="NextCut"
+                className="h-10 w-fit"
+              />
+            </Link>
+          </div>
 
           {children}
 

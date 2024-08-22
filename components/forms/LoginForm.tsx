@@ -20,7 +20,6 @@ const LoginForm = () => {
       if (!email || !password) return;
 
       const response = await logIn({ email, password });
-      console.log(response);
       if (response) router.push("/");
     } catch (err) {
       console.log(err);

@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { signUp } from "@/lib/actions/customer.actions";
 import { useState } from "react";
 import { SignupParams } from "@/types";
+import { Customer } from "@/types/appwrite.types";
 
 interface Inputs {
   fullName: string;
@@ -16,10 +17,9 @@ interface Inputs {
 }
 
 const RegisterForm = () => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<Customer | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const { register, formState, getValues, handleSubmit, reset } =
-    useForm<Inputs>();
+  const { register, formState, handleSubmit } = useForm<Inputs>();
   const { errors } = formState;
 
   async function onSubmit(data: SignupParams) {

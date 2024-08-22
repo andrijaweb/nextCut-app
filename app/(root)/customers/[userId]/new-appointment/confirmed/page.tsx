@@ -4,6 +4,7 @@ import { formatDateTime } from "@/lib/utils";
 import { type Appointment } from "@/types/appwrite.types";
 import { CalendarDays } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 const ConfirmedPage = async ({
   searchParams,
@@ -15,14 +16,16 @@ const ConfirmedPage = async ({
 
   return (
     <div className="flex h-screen min-h-screen px-[5%]">
-      <div className="m-auto flex flex-1 flex-col items-center justify-between gap-10 py-10">
-        <Image
-          src="/assets/imgs/logo.svg"
-          width={1000}
-          height={1000}
-          alt="logo"
-          className="mb-8 h-10 w-fit"
-        />
+      <div className="m-auto flex flex-col items-center justify-between gap-10 py-10">
+        <Link href="/" className="mb-8">
+          <Image
+            src="/assets/imgs/logo.svg"
+            width={1000}
+            height={1000}
+            alt="logo"
+            className="h-10 w-fit"
+          />
+        </Link>
 
         <section className="flex flex-col items-center">
           <Image
