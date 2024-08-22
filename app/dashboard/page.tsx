@@ -1,13 +1,27 @@
 import StateCard from "@/components/StateCard";
 import AppointmentTable from "@/components/tables/AppointmentTable";
 import { getAppointments } from "@/lib/actions/appointment.action";
+import { getLoggedInUser } from "@/lib/actions/customer.actions";
 import { Appointment } from "@/types/appwrite.types";
 import { CalendarCheck, CalendarClock, CalendarX } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 const AdminPage = async () => {
+  const user = await getLoggedInUser();
   const appointments: Appointment[] = await getAppointments();
+  const statusCounts = appointments.reduce(
+    (acc, appointment) => {
+      if (
+        appointment.status === "confirmed" ||
+        appointment.status === "pending" ||
+        appointment.status === "denied"
+      )
+        acc[appointment.status] = acc[appointment.status] + 1;
+      return acc;
+    },
+    { confirmed: 0, pending: 0, denied: 0 }
+  );
 
   return (
     <div className="mx-auto flex max-w-7xl flex-col space-y-14 px-3 xl:px-12 pt-5 pb-24">
@@ -27,7 +41,7 @@ const AdminPage = async () => {
 
       <main>
         <section className="mb-12 space-y-4">
-          <h1 className="heading-h1">Welcome, Andrija 👋</h1>
+          <h1 className="heading-h1">Welcome, {user.name} 👋</h1>
           <p className="text-textGray-500">
             Control appointments and clients as desired
           </p>
@@ -36,19 +50,24 @@ const AdminPage = async () => {
         <section className="flex w-full flex-col justify-between gap-5 sm:flex-row flex-wrap xl:gap-10 mb-16">
           <StateCard
             state="confirmed"
-            count={2}
+            count={statusCounts.confirmed}
             label="Confirmed"
             icon={CalendarCheck}
           />
 
           <StateCard
             state="pending"
-            count={1}
+            count={statusCounts.pending}
             label="Pending"
             icon={CalendarClock}
           />
 
-          <StateCard state="denied" count={1} label="Denied" icon={CalendarX} />
+          <StateCard
+            state="denied"
+            count={statusCounts.denied}
+            label="Denied"
+            icon={CalendarX}
+          />
         </section>
 
         <AppointmentTable appointments={appointments} />
