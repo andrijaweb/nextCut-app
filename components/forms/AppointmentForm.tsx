@@ -1,7 +1,9 @@
 "use client";
 
-import { createAppointment } from "@/lib/actions/appointment.action";
-import { addHours, setMinutes, startOfHour } from "date-fns";
+import {
+  createAppointment,
+  editAppointment,
+} from "@/lib/actions/appointment.action";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
@@ -13,10 +15,12 @@ import Select, {
 import Button from "../Button";
 import DateSelector from "../DateSelector";
 import FormRow from "./FormRow";
+import { Appointment } from "@/types/appwrite.types";
 
 interface AppointmentProps {
   userId: string;
   customerId: string;
+  appointmentToEdit?: Appointment;
 }
 
 interface Inputs {
@@ -66,25 +70,36 @@ const selectStyles = {
   }),
 };
 
-const now = new Date();
-
-const initialStartDate =
-  now.getMinutes() > 30
-    ? addHours(startOfHour(now), 1)
-    : setMinutes(startOfHour(now), 30);
-
-const AppointmentForm = ({ userId, customerId }: AppointmentProps) => {
+const AppointmentForm = ({
+  userId,
+  customerId,
+  appointmentToEdit,
+}: AppointmentProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [barberOption, setBarberOption] = useState<OptionType | null>(null);
   const [serviceOption, setServiceOption] = useState<OptionType | null>(null);
-  const [startDate, setStartDate] = useState<Date | null>(initialStartDate);
+  const [startDate, setStartDate] = useState<Date | null>(null);
   const router = useRouter();
   const { handleSubmit } = useForm<Inputs>();
 
   const onSubmit = async () => {
     setIsLoading(true);
     try {
-      if (customerId && barberOption && serviceOption && startDate) {
+      if (appointmentToEdit && barberOption && serviceOption && startDate) {
+        const appointment = {
+          userId,
+          customer: customerId,
+          barber: barberOption.value,
+          serviceType: serviceOption.value,
+          scheduleDate: startDate,
+          status: "pending",
+        };
+
+        const editedAppointment = await editAppointment(
+          appointmentToEdit.$id,
+          appointment
+        );
+      } else if (barberOption && serviceOption && startDate) {
         const appointment = {
           userId,
           customer: customerId,

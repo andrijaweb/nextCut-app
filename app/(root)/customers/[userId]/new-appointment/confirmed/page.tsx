@@ -1,18 +1,23 @@
 import Button from "@/components/Button";
 import { getAppointment } from "@/lib/actions/appointment.action";
-import { formatDateTime } from "@/lib/utils";
 import { type Appointment } from "@/types/appwrite.types";
+import { format } from "date-fns";
 import { CalendarDays } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-const ConfirmedPage = async ({
-  searchParams,
-}: {
-  searchParams: { appointmentId: string };
-}) => {
-  const appointmendId = (searchParams?.appointmentId as string) || "";
-  const appointment: Appointment = await getAppointment(appointmendId);
+interface ConfirmedPageProps {
+  params: {
+    userId: string;
+    appointmentId: string;
+  };
+  searchParams: {
+    appointmentId: string;
+  };
+}
+
+const ConfirmedPage = async ({ params, searchParams }: ConfirmedPageProps) => {
+  const appointment = await getAppointment(searchParams.appointmentId);
 
   return (
     <div className="flex h-screen min-h-screen px-[5%]">
@@ -52,11 +57,14 @@ const ConfirmedPage = async ({
           <p>{appointment.serviceType}</p>
           <div className="flex items-center gap-2.5">
             <CalendarDays />
-            <p>{formatDateTime(appointment.scheduleDate).dateTime}</p>
+            <p>{format(appointment.scheduleDate, "MMMM dd, yyyy HH:mm")}</p>
           </div>
-          <p className="text-yellow-500 font-medium cursor-pointer">
+          <Link
+            href={`/customers/${params.userId}/edit`}
+            className="text-yellow-500 hover:text-yellow-400 font-medium cursor-pointer"
+          >
             Edit appointment
-          </p>
+          </Link>
         </section>
       </div>
     </div>

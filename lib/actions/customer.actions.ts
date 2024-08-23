@@ -6,6 +6,7 @@ import { cookies } from "next/headers";
 import { parseStringify } from "../utils";
 import { type LogInProps, type SignupParams } from "@/types";
 import { type Customer } from "@/types/appwrite.types";
+import { redirect } from "next/navigation";
 
 const { DATABASE_ID, CUSTOMER_COLLECTION_ID } = process.env;
 
@@ -101,6 +102,7 @@ export const logout = async () => {
 
     cookies().delete("auth-session");
     await account.deleteSession("current");
+    redirect("/sign-in");
   } catch (err) {
     return null;
   }
