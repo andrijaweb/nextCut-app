@@ -126,10 +126,14 @@ const AppointmentForm = ({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex-1 space-y-6">
-      <section className="mb-12 space-y-4">
-        <h1 className="heading-h1">Schedule your new haircut ✂️</h1>
-        <p className="text-textGray-500">Send a request for your new haircut</p>
-      </section>
+      {!appointmentToEdit && (
+        <section className="mb-12 space-y-4">
+          <h1 className="heading-h1">Schedule your new haircut ✂️</h1>
+          <p className="text-textGray-500">
+            Send a request for your new haircut
+          </p>
+        </section>
+      )}
 
       <div className="space-y-5">
         <FormRow label="Available barbers" htmlFor="barber">

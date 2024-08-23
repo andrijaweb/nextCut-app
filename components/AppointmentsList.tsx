@@ -25,7 +25,7 @@ const AppointmentsList = ({
           <div className="flex items-center gap-2.5">
             {!isPast(appointment.scheduleDate) ? (
               <>
-                <Link href={`/account/appointments/${appointment.$id}`}>
+                <Link href={`/account/appointments/edit/${appointment.$id}`}>
                   <Edit className="h-5 text-yellow-500 hover:text-blue-500" />
                 </Link>
                 <Link href={`/account/appointments/${appointment.$id}`}>
