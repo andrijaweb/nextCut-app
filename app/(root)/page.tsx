@@ -44,9 +44,15 @@ const Home = async () => {
             )}
           </div>
 
-          <p className="text-textGray-500 mt-16">
-            © NextCut | All rights reserved
-          </p>
+          <div className="mt-16">
+            <Link
+              href="/account"
+              className="text-yellow-500 hover:text-yellow-400 text-lg font-medium"
+            >
+              Account Settings
+            </Link>
+            <p className="text-textGray-500">© NextCut | All rights reserved</p>
+          </div>
         </div>
       </section>
 
