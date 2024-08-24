@@ -4,7 +4,6 @@ import { getLoggedInUser } from "@/lib/actions/customer.actions";
 
 const AppointmentPage = async () => {
   const user = await getLoggedInUser();
-  console.log(user);
   const appointments = await getCustomerAppointments(user.$id);
 
   return (

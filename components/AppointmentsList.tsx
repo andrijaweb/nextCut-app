@@ -2,6 +2,8 @@ import { Appointment } from "@/types/appwrite.types";
 import { format, isPast } from "date-fns";
 import { CalendarDays, Edit, Trash } from "lucide-react";
 import Link from "next/link";
+import DeleteAppointment from "./DeleteAppointment";
+import { getLoggedInUser } from "@/lib/actions/customer.actions";
 
 const AppointmentsList = ({
   appointments,
@@ -28,9 +30,7 @@ const AppointmentsList = ({
                 <Link href={`/account/appointments/edit/${appointment.$id}`}>
                   <Edit className="h-5 text-yellow-500 hover:text-blue-500" />
                 </Link>
-                <Link href={`/account/appointments/${appointment.$id}`}>
-                  <Trash className="h-5 text-yellow-500 hover:text-red-500" />
-                </Link>
+                <DeleteAppointment appointmentId={appointment.$id} />
               </>
             ) : null}
           </div>

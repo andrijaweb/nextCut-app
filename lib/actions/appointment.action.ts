@@ -43,15 +43,12 @@ export const editAppointment = async (
       appointmentId
     );
 
-    if (!existingAppointment) {
-      throw new Error("Appointment not found");
-    }
+    if (!existingAppointment) throw new Error("Appointment not found");
 
-    if (existingAppointment.userId !== userId) {
+    if (existingAppointment.userId !== userId)
       throw new Error(
         "Unauthorized: You do not have permission to edit this appointment"
       );
-    }
 
     // Edit Appointment
     const editedAppointment = await database.updateDocument(
@@ -65,6 +62,41 @@ export const editAppointment = async (
 
     revalidatePath("/account/appointments");
     return parseStringify(editedAppointment);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deleteAppointment = async (
+  appointmentId: string,
+  userId: string
+) => {
+  try {
+    const { database } = await createAdminClient();
+
+    // Authorization
+    const existingAppointment = await database.getDocument(
+      DATABASE_ID!,
+      APPOINTMENT_COLLECTION_ID!,
+      appointmentId
+    );
+
+    if (!existingAppointment) throw new Error("Appointment not found");
+
+    if (existingAppointment.userId !== userId)
+      throw new Error(
+        "Unauthorized: You do not have permission to edit this appointment"
+      );
+
+    const deleteAppointment = await database.deleteDocument(
+      DATABASE_ID!,
+      APPOINTMENT_COLLECTION_ID!,
+      appointmentId
+    );
+
+    if (!deleteAppointment) throw Error;
+
+    revalidatePath("/account/appointments");
   } catch (error) {
     console.error(error);
   }
