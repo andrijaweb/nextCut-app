@@ -97,8 +97,14 @@ const AppointmentForm = ({
 
         const editedAppointment = await editAppointment(
           appointmentToEdit.$id,
+          userId,
           appointment
         );
+
+        if (editedAppointment)
+          router.push(
+            `/customers/${userId}/new-appointment/confirmed?appointmentId=${editedAppointment.$id}`
+          );
       } else if (barberOption && serviceOption && startDate) {
         const appointment = {
           userId,
@@ -111,11 +117,10 @@ const AppointmentForm = ({
 
         const newAppointment = await createAppointment(appointment);
 
-        if (newAppointment) {
+        if (newAppointment)
           router.push(
             `/customers/${userId}/new-appointment/confirmed?appointmentId=${newAppointment.$id}`
           );
-        }
       }
     } catch (err: any) {
       console.error(err.message);

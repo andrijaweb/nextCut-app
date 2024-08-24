@@ -1,8 +1,11 @@
 import AppointmentsList from "@/components/AppointmentsList";
-import { getAppointments } from "@/lib/actions/appointment.action";
+import { getCustomerAppointments } from "@/lib/actions/appointment.action";
+import { getLoggedInUser } from "@/lib/actions/customer.actions";
 
 const AppointmentPage = async () => {
-  const appointments = await getAppointments();
+  const user = await getLoggedInUser();
+  console.log(user);
+  const appointments = await getCustomerAppointments(user.$id);
 
   return (
     <div>

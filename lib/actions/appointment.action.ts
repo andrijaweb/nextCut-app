@@ -30,10 +30,30 @@ export const createAppointment = async (
 
 export const editAppointment = async (
   appointmentId: string,
+  userId: string,
   appointment: CreateAppointmentParams
 ) => {
   try {
     const { database } = await createAdminClient();
+
+    // Authorization
+    const existingAppointment = await database.getDocument(
+      DATABASE_ID!,
+      APPOINTMENT_COLLECTION_ID!,
+      appointmentId
+    );
+
+    if (!existingAppointment) {
+      throw new Error("Appointment not found");
+    }
+
+    if (existingAppointment.userId !== userId) {
+      throw new Error(
+        "Unauthorized: You do not have permission to edit this appointment"
+      );
+    }
+
+    // Edit Appointment
     const editedAppointment = await database.updateDocument(
       DATABASE_ID!,
       APPOINTMENT_COLLECTION_ID!,
@@ -43,6 +63,7 @@ export const editAppointment = async (
 
     if (!editedAppointment) throw Error;
 
+    revalidatePath("/account/appointments");
     return parseStringify(editedAppointment);
   } catch (error) {
     console.error(error);
@@ -75,11 +96,28 @@ export const getAppointments = async () => {
     const appointments = await database.listDocuments(
       DATABASE_ID!,
       APPOINTMENT_COLLECTION_ID!,
-      [Query.orderDesc("$createdAt")]
+      [Query.orderDesc("$updatedAt")]
     );
 
     return parseStringify(appointments.documents);
   } catch (error) {
     console.error(error);
+  }
+};
+
+export const getCustomerAppointments = async (userId: string) => {
+  try {
+    const { database } = await createAdminClient();
+
+    const appointments = await database.listDocuments(
+      DATABASE_ID!,
+      APPOINTMENT_COLLECTION_ID!,
+      [Query.equal("userId", userId), Query.orderDesc("$updatedAt")]
+    );
+
+    return parseStringify(appointments.documents);
+  } catch (error) {
+    console.error("Error fetching customer appointments:", error);
+    return [];
   }
 };
