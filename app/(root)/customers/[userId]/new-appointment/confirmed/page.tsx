@@ -1,6 +1,5 @@
 import Button from "@/components/Button";
 import { getAppointment } from "@/lib/actions/appointment.action";
-import { type Appointment } from "@/types/appwrite.types";
 import { format } from "date-fns";
 import { CalendarDays } from "lucide-react";
 import Image from "next/image";
@@ -60,7 +59,7 @@ const ConfirmedPage = async ({ params, searchParams }: ConfirmedPageProps) => {
             <p>{format(appointment.scheduleDate, "MMMM dd, yyyy HH:mm")}</p>
           </div>
           <Link
-            href={`/customers/${params.userId}/edit`}
+            href={`/account/appointments/edit/${appointment.$id}`}
             className="text-yellow-500 hover:text-yellow-400 font-medium cursor-pointer"
           >
             Edit appointment
