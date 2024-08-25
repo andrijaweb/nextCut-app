@@ -15,12 +15,12 @@ const AdminPage = async () => {
       if (
         appointment.status === "confirmed" ||
         appointment.status === "pending" ||
-        appointment.status === "denied"
+        appointment.status === "declined"
       )
         acc[appointment.status] = acc[appointment.status] + 1;
       return acc;
     },
-    { confirmed: 0, pending: 0, denied: 0 }
+    { confirmed: 0, pending: 0, declined: 0 }
   );
 
   return (
@@ -63,9 +63,9 @@ const AdminPage = async () => {
           />
 
           <StateCard
-            state="denied"
-            count={statusCounts.denied}
-            label="Denied"
+            state="declined"
+            count={statusCounts.declined}
+            label="Declined"
             icon={CalendarX}
           />
         </section>

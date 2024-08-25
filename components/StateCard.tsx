@@ -1,8 +1,7 @@
 import React, { FC } from "react";
-import { Icon, LucideProps } from "lucide-react";
 
 interface StateCardProps {
-  state: "confirmed" | "pending" | "denied";
+  state: "confirmed" | "pending" | "declined";
   count: number;
   label: string;
   icon: React.ElementType;
@@ -17,7 +16,7 @@ const StateCard: FC<StateCardProps> = ({
   const colors = {
     confirmed: "#008450",
     pending: "#EFB700",
-    denied: "#B81D13",
+    declined: "#B81D13",
   };
 
   return (

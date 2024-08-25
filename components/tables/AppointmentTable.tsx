@@ -2,7 +2,7 @@
 
 import { Appointment } from "@/types/appwrite.types";
 import { format } from "date-fns";
-import { Check, X } from "lucide-react";
+import AppointmentAction from "../AppointmentAction";
 import StatusMini from "../StatusMini";
 import Table from "../Table";
 
@@ -11,8 +11,6 @@ const AppointmentTable = ({
 }: {
   appointments: Appointment[];
 }) => {
-  console.log(appointments);
-
   return (
     <Table columns="0.6fr 2fr 1.4fr 2fr 1.4fr 0.2fr">
       <Table.Header>
@@ -34,12 +32,16 @@ const AppointmentTable = ({
             <p>{format(appointment.scheduleDate, "MMMM dd, yyyy HH:mm")}</p>
             <p>{appointment.barber}</p>
             <div className="flex items-center gap-2">
-              <button className="text-[#008450] hover:text-green-800">
-                <Check />
-              </button>
-              <button className="text-[#B81D13] hover:text-red-800">
-                <X />
-              </button>
+              <AppointmentAction
+                disabled={appointment.status === "confirmed"}
+                type="confirmed"
+                appointment={appointment}
+              />
+              <AppointmentAction
+                disabled={appointment.status === "declined"}
+                type="declined"
+                appointment={appointment}
+              />
             </div>
           </Table.Row>
         )}

@@ -11,7 +11,7 @@ const StatusMini: FC<StatusMiniProps> = ({ status }) => {
   const icons = {
     confirmed: <CircleCheck />,
     pending: <CircleEllipsis />,
-    denied: <Ban />,
+    declined: <Ban />,
   };
 
   return (
@@ -21,13 +21,13 @@ const StatusMini: FC<StatusMiniProps> = ({ status }) => {
         {
           "bg-green-600/10 text-[#008450]": status === "confirmed",
           "bg-yellow-600/10 text-[#EFB700]": status === "pending",
-          "bg-red-600/10 text-[#B81D13]": status === "denied",
+          "bg-red-600/10 text-[#B81D13]": status === "declined",
         }
       )}
     >
-      {status === "confirmed" ||
-        status === "pending" ||
-        (status === "denied" && icons[status])}
+      {status === "confirmed" || status === "pending" || status === "declined"
+        ? icons[status]
+        : null}
       <p className="font-medium">{capitalizeFirstLetter(status)}</p>
     </div>
   );

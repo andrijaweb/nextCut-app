@@ -1,9 +1,8 @@
 import { Appointment } from "@/types/appwrite.types";
 import { format, isPast } from "date-fns";
-import { CalendarDays, Edit, Trash } from "lucide-react";
+import { CalendarDays, Edit } from "lucide-react";
 import Link from "next/link";
 import DeleteAppointment from "./DeleteAppointment";
-import { getLoggedInUser } from "@/lib/actions/customer.actions";
 
 const AppointmentsList = ({
   appointments,
@@ -25,7 +24,8 @@ const AppointmentsList = ({
             <p>{format(appointment.scheduleDate, "MMMM dd, yyyy HH:mm")}</p>
           </div>
           <div className="flex items-center gap-2.5">
-            {!isPast(appointment.scheduleDate) ? (
+            {!isPast(appointment.scheduleDate) &&
+            appointment.status === "pending" ? (
               <>
                 <Link href={`/account/appointments/edit/${appointment.$id}`}>
                   <Edit className="h-5 text-yellow-500 hover:text-blue-500" />
