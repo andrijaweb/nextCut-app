@@ -2,10 +2,19 @@ import AccountNavigation from "@/components/AccountNavigation";
 
 const AccountPage = () => {
   return (
-    <div>
-      <h1 className="text-2xl font-semibold mb-5">Account Settings</h1>
+    <div className="flex gap-16">
+      <div>
+        <h1 className="text-2xl font-semibold mb-5">Account Settings</h1>
 
-      <AccountNavigation />
+        <AccountNavigation />
+      </div>
+
+      <div className="space-y-5">
+        <h3 className="text-3xl font-bold">Welcome 👋</h3>
+        <p className="text-lg font-medium text-textGray-500">
+          Here you can edit your appointments and manage your account.
+        </p>
+      </div>
     </div>
   );
 };
