@@ -6,9 +6,11 @@ import { Appointment } from "@/types/appwrite.types";
 import { CalendarCheck, CalendarClock, CalendarX } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
 const AdminPage = async () => {
   const user = await getLoggedInUser();
+  const ADMIN_EMAIL = process.env.ADMIN_EMAIL!;
   const appointments: Appointment[] = await getAppointments();
   const statusCounts = appointments.reduce(
     (acc, appointment) => {
@@ -22,6 +24,8 @@ const AdminPage = async () => {
     },
     { confirmed: 0, pending: 0, declined: 0 }
   );
+
+  if (!user || user.email !== ADMIN_EMAIL) return notFound();
 
   return (
     <div className="mx-auto flex max-w-7xl flex-col space-y-14 px-3 xl:px-12 pt-5 pb-24">
