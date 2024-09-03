@@ -6,23 +6,33 @@ import FormRow from "./FormRow";
 import { useState } from "react";
 import { logIn } from "@/lib/actions/customer.actions";
 import { useRouter } from "next/navigation";
+import { AppwriteException } from "node-appwrite";
 
 const LoginForm = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setIsLoading(true);
+    setError(null);
     try {
-      if (!email || !password) return;
+      if (!email || !password) {
+        setError("Both fields are required.");
+        return;
+      }
 
       const response = await logIn({ email, password });
-      if (response) router.push("/");
-    } catch (err) {
-      console.log(err);
+
+      router.push("/");
+    } catch (err: any) {
+      setError(
+        err.message || "An unexpected error occurred. Please try again."
+      );
+      console.log("Error:", err);
     } finally {
       setIsLoading(false);
     }
@@ -58,6 +68,7 @@ const LoginForm = () => {
             disabled={isLoading}
           />
         </FormRow>
+        {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
       </div>
       <Button size="full" className="mt-10" disabled={isLoading}>
         {!isLoading ? "Log In" : "Logging in..."}

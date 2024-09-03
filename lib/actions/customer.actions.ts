@@ -1,6 +1,6 @@
 "use server";
 
-import { ID, Query } from "node-appwrite";
+import { AppwriteException, ID, Query } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../appwrite.config";
 import { cookies } from "next/headers";
 import { parseStringify } from "../utils";
@@ -45,7 +45,8 @@ export const logIn = async ({ email, password }: LogInProps) => {
 
     return session;
   } catch (err) {
-    throw err;
+    if (err instanceof AppwriteException) throw new Error(err.message);
+    throw new Error("An unexpected error occurred.");
   }
 };
 
