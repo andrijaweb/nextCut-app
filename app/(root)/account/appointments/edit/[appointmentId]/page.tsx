@@ -2,6 +2,10 @@ import AppointmentForm from "@/components/forms/AppointmentForm";
 import { getAppointment } from "@/lib/actions/appointment.action";
 import { getCustomer, getLoggedInUser } from "@/lib/actions/customer.actions";
 
+export const metadata = {
+  title: "Edit Appointment | NextCut",
+};
+
 const EditAppointment = async ({
   params,
 }: {

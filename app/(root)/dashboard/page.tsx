@@ -8,6 +8,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+export const metadata = {
+  title: "Dashboard",
+};
+
 const AdminPage = async () => {
   const user = await getLoggedInUser();
   const ADMIN_EMAIL = process.env.ADMIN_EMAIL!;

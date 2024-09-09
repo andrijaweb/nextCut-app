@@ -11,7 +11,10 @@ const fontSans = Karla({
 });
 
 export const metadata: Metadata = {
-  title: "NextCut | Book your haircut today",
+  title: {
+    template: "%s | NextCut",
+    default: "Welcome | NextCut",
+  },
   description: "NextCut is an application for haircut appointments.",
 };
 

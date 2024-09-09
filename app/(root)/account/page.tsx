@@ -1,5 +1,9 @@
 import AccountNavigation from "@/components/AccountNavigation";
 
+export const metadata = {
+  title: "Account",
+};
+
 const AccountPage = () => {
   return (
     <div className="flex gap-16">

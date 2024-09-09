@@ -3,6 +3,10 @@ import BackButton from "@/components/BackButton";
 import { getCustomerAppointments } from "@/lib/actions/appointment.action";
 import { getLoggedInUser } from "@/lib/actions/customer.actions";
 
+export const metadata = {
+  title: "Appointments",
+};
+
 const AppointmentPage = async () => {
   const user = await getLoggedInUser();
 

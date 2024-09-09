@@ -9,6 +9,10 @@ interface AppointmentParams {
   };
 }
 
+export const metadata = {
+  title: "New Appointment",
+};
+
 const Appointment = async ({ params }: AppointmentParams) => {
   const customer = await getCustomer(params.userId);
 
