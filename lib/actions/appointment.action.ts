@@ -1,11 +1,10 @@
 "use server";
 
 import { type CreateAppointmentParams } from "@/types";
+import { revalidatePath } from "next/cache";
 import { ID, Query } from "node-appwrite";
 import { createAdminClient } from "../appwrite.config";
 import { parseStringify } from "../utils";
-import { Appointment } from "@/types/appwrite.types";
-import { revalidatePath } from "next/cache";
 
 const { DATABASE_ID, APPOINTMENT_COLLECTION_ID } = process.env;
 

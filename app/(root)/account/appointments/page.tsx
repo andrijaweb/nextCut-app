@@ -5,6 +5,21 @@ import { getLoggedInUser } from "@/lib/actions/customer.actions";
 
 const AppointmentPage = async () => {
   const user = await getLoggedInUser();
+
+  if (!user || !user.$id) {
+    return (
+      <div>
+        <BackButton />
+        <h2 className="font-semibold text-2xl text-accent-400 mb-7">
+          Your reservations
+        </h2>
+        <p className="text-lg">
+          You are not logged in. Please log in to view your appointments.
+        </p>
+      </div>
+    );
+  }
+
   const appointments = await getCustomerAppointments(user.$id);
 
   return (
