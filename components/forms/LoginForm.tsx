@@ -1,12 +1,11 @@
 "use client";
 
+import { logIn } from "@/lib/actions/customer.actions";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import Button from "../Button";
 import FormRow from "./FormRow";
-import { useState } from "react";
-import { logIn } from "@/lib/actions/customer.actions";
-import { useRouter } from "next/navigation";
-import { AppwriteException } from "node-appwrite";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -29,10 +28,7 @@ const LoginForm = () => {
 
       router.push("/");
     } catch (err: any) {
-      setError(
-        err.message || "An unexpected error occurred. Please try again."
-      );
-      console.log("Error:", err);
+      setError("Wrong credentials. Please try again!");
     } finally {
       setIsLoading(false);
     }

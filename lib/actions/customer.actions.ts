@@ -29,25 +29,20 @@ export const getCustomer = async (customerId: string): Promise<Customer> => {
 };
 
 export const logIn = async ({ email, password }: LogInProps) => {
-  try {
-    const { account } = await createAdminClient();
+  const { account } = await createAdminClient();
 
-    const session = await account.createEmailPasswordSession(email, password);
+  const session = await account.createEmailPasswordSession(email, password);
 
-    if (!session) throw new Error("Error creating a new session");
+  if (!session) throw new Error("Error creating a new session");
 
-    cookies().set("auth-session", session.secret, {
-      path: "/",
-      httpOnly: true,
-      sameSite: "strict",
-      secure: true,
-    });
+  cookies().set("auth-session", session.secret, {
+    path: "/",
+    httpOnly: true,
+    sameSite: "strict",
+    secure: true,
+  });
 
-    return session;
-  } catch (err) {
-    if (err instanceof AppwriteException) throw new Error(err.message);
-    throw new Error("An unexpected error occurred.");
-  }
+  return session;
 };
 
 export const signUp = async ({
